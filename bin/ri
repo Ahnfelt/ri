@@ -1,3 +1,7 @@
 #!/bin/bash
-java -cp ~/Projects/ri/target/ri-1.0-SNAPSHOT-jar-with-dependencies.jar dk.ahnfelt.ri.Main $@
+
+# Add the directory containing this script to your PATH variable (for example in .bashrc), ala:
+# export PATH="/some/path/ri/bin:$PATH"
+
+java -cp `dirname "$0"`/../target/ri-1.0-SNAPSHOT-jar-with-dependencies.jar dk.ahnfelt.ri.Main $@
 

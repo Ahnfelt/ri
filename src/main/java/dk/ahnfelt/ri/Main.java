@@ -68,9 +68,15 @@ public class Main {
                 dependencies.add(new Project(dependency.getGroupId(), dependency.getArtifactId()));
             }
             return new Project(model.getGroupId(), model.getArtifactId(), dependencies);
+        } catch(FileNotFoundException e) {
+            System.err.println("No pom.xml file in " + directory);
+            System.exit(1);
+            throw new RuntimeException(e);
         } catch(IOException e) {
             throw new RuntimeException(e);
         } catch(XmlPullParserException e) {
+            System.err.println("Cannot parse pom.xml file in " + directory);
+            System.exit(1);
             throw new RuntimeException(e);
         }
     }

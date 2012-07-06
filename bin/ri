@@ -1,0 +1,3 @@
+#!/bin/bash
+java -cp ~/Projects/ri/target/ri-1.0-SNAPSHOT-jar-with-dependencies.jar dk.ahnfelt.ri.Main $@
+

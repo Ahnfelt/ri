@@ -105,11 +105,17 @@ public class Main {
 
     private static void help() {
         System.out.println("ri - recursive install of local dependencies for Maven 2");
-        System.out.println("ri install  (recursive install of linked dependencies) (default)");
-        System.out.println("ri link     (link the current artifact to the current folder)");
-        System.out.println("ri unlink   (unlink the current or supplied artifact)");
-        System.out.println("ri list     (list all the linked artifacts)");
-        System.out.println("ri help     (you're looking at it)");
+        System.out.println();
+        System.out.println("Commands:");
+        System.out.println("  ri          (same as ri install)");
+        System.out.println("  ri install  (recursive install of linked dependencies and current project)");
+        System.out.println("  ri link     (link the current artifact to the current folder)");
+        System.out.println("  ri unlink   (unlink the current or supplied artifact)");
+        System.out.println("  ri list     (list all the linked artifacts)");
+        System.out.println("  ri help     (this is what you're looking at)");
+        System.out.println();
+        System.out.println("Everything after the command will be passed to Maven.");
+        System.out.println("If nothing, Maven will be called with -o -DskipTests.");
     }
 
     private static void unlink(String[] arguments) {

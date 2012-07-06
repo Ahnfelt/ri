@@ -97,16 +97,29 @@ public class Main {
             link();
         } else if(command.equals("unlink")) {
             unlink(arguments);
+        } else if(command.equals("list")) {
+            list();
+        } else if(command.equals("help")) {
+            help();
         } else {
-            System.err.println("Unknown command: " + command);
+            System.err.println("Unknown command: " + command + " (for documentation, run: ri help)");
             System.exit(1);
         }
     }
 
+    private static void help() {
+        System.out.println("ri - recursive install of local dependencies for Maven 2");
+        System.out.println("ri install  (recursive install of linked dependencies) (default)");
+        System.out.println("ri link     (link the current artifact to the current folder)");
+        System.out.println("ri unlink   (unlink the current or supplied artifact)");
+        System.out.println("ri list     (list all the linked artifacts)");
+        System.out.println("ri help     (you're looking at it)");
+    }
+
     private static void unlink(String[] arguments) {
         String name;
-        if(arguments.length > 0 && arguments[1].contains(":")) {
-            name = arguments[1].replace('/', '_');
+        if(arguments.length > 0 && arguments[0].contains(":")) {
+            name = arguments[0].replace('/', '_');
         } else {
             name = pom(System.getProperty("user.dir")).getLinkName();
         }
@@ -133,6 +146,16 @@ public class Main {
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static void list() {
+        File home = new File(System.getProperty("user.home"));
+        File links = new File(new File(home, ".ri"), "links");
+        File[] files = links.listFiles();
+        if(files == null) return;
+        for(File link: files) {
+            System.out.println(link.getName());
         }
     }
 

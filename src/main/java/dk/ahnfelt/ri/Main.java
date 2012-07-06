@@ -7,12 +7,8 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class Main {
-    private static final Pattern pattern = Pattern.compile(
-            "\\b[a-zA-Z0-9._-]+[:][a-zA-Z0-9._-]+[:][a-zA-Z0-9._-]+[:][a-zA-Z0-9._-]+\\b");
-
     private static class Project {
         private final String groupId;
         private final String artifactId;

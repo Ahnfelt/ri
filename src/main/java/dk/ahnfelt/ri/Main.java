@@ -63,11 +63,21 @@ public class Main {
             } finally {
                 reader.close();
             }
+            String parentGroupId = model.getParent() != null ? model.getParent().getGroupId() : null;
             List<Project> dependencies = new LinkedList<Project>();
             for(Dependency dependency: (List<Dependency>) model.getDependencies()) {
                 dependencies.add(new Project(dependency.getGroupId(), dependency.getArtifactId()));
             }
-            return new Project(model.getGroupId(), model.getArtifactId(), dependencies);
+            String groupId = model.getGroupId() != null ? model.getGroupId() : parentGroupId;
+            if(groupId == null) {
+                System.err.println("No group ID for pom.xml in " + directory);
+                System.exit(1);
+            }
+            if(model.getArtifactId() == null) {
+                System.err.println("No artifact ID for pom.xml in " + directory);
+                System.exit(1);
+            }
+            return new Project(groupId, model.getArtifactId(), dependencies);
         } catch(FileNotFoundException e) {
             System.err.println("No pom.xml file in " + directory);
             System.exit(1);

@@ -65,6 +65,9 @@ public class Main {
             }
             String parentGroupId = model.getParent() != null ? model.getParent().getGroupId() : null;
             List<Project> dependencies = new LinkedList<Project>();
+            if(model.getParent() != null) {
+                dependencies.add(new Project(model.getParent().getGroupId(), model.getParent().getArtifactId()));
+            }
             for(Dependency dependency: (List<Dependency>) model.getDependencies()) {
                 dependencies.add(new Project(dependency.getGroupId(), dependency.getArtifactId()));
             }

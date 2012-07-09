@@ -184,7 +184,7 @@ public class Main {
             commandLine.add(command);
             commandLine.addAll(Arrays.asList(arguments));
             File directory = new File(path);
-            ProcessBuilder processBuilder = new ProcessBuilder(commandLine).directory(directory);
+            ProcessBuilder processBuilder = new ProcessBuilder(commandLine).directory(directory).redirectErrorStream(true);
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             List<String> packages = new LinkedList<String>();

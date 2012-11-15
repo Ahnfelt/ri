@@ -107,7 +107,9 @@ public class Main {
             arguments = new String[] {"-o", "-DskipTests"};
         }
         if(command.equals("install")) {
-            install(arguments);
+            install(arguments, "install");
+        } else if(command.equals("assemble")) {
+            install(arguments, "assemble");
         } else if(command.equals("link")) {
             link();
         } else if(command.equals("unlink")) {
@@ -128,6 +130,7 @@ public class Main {
         System.out.println("Commands:");
         System.out.println("  ri          (same as ri install)");
         System.out.println("  ri install  (recursive install of linked dependencies and current project)");
+        System.out.println("  ri assemble (recursive install of linked dependencies and assemble current project)");
         System.out.println("  ri link     (link the current artifact to the current folder)");
         System.out.println("  ri unlink   (unlink the current or supplied artifact)");
         System.out.println("  ri list     (list all the linked artifacts)");
@@ -180,11 +183,12 @@ public class Main {
         }
     }
 
-    private static List<String> maven(String path, String command, String... arguments) {
+    private static List<String> maven(String path, String command1, String command2, String... arguments) {
         try {
             List<String> commandLine = new LinkedList<String>();
             commandLine.add("mvn");
-            commandLine.add(command);
+            commandLine.add(command1);
+            commandLine.add(command2);
             commandLine.addAll(Arrays.asList(arguments));
             File directory = new File(path);
             ProcessBuilder processBuilder = new ProcessBuilder(commandLine).directory(directory).redirectErrorStream(true);
@@ -212,17 +216,17 @@ public class Main {
         }
     }
 
-    private static void install(String[] arguments) {
+    private static void install(String[] arguments, String command) {
         Set<String> finished = new HashSet<String>();
         Project specification = pom(System.getProperty("user.dir"));
         finished.add(specification.getLinkName());
         recursiveInstall(specification, finished, arguments);
         System.out.println("Installing " + specification);
-        maven(System.getProperty("user.dir"), "install", arguments);
+        maven(System.getProperty("user.dir"), "clean", command, arguments);
     }
 
     private static void performInstall(Project specification, String[] arguments) {
-        maven(specification.getSourcePath(), "install", arguments);
+        maven(specification.getSourcePath(), "clean", "install", arguments);
     }
 
     private static void recursiveInstall(Project project, Set<String> finished, String[] arguments) {

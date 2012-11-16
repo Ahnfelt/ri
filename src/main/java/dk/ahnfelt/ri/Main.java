@@ -106,21 +106,18 @@ public class Main {
         if(arguments.length == 0) {
             arguments = new String[] {"-o", "-DskipTests"};
         }
-        if(command.equals("install")) {
-            install(arguments, "install");
-        } else if(command.equals("assemble")) {
-            install(arguments, "assemble");
-        } else if(command.equals("link")) {
-            link();
-        } else if(command.equals("unlink")) {
-            unlink(arguments);
-        } else if(command.equals("list")) {
-            list();
-        } else if(command.equals("help")) {
-            help();
-        } else {
-            System.err.println("Unknown command: " + command + " (for documentation, run: ri help)");
-            System.exit(1);
+        if(!command.isEmpty() && Character.isLetter(command.codePointAt(0))) {
+            if(command.equals("link")) {
+                link();
+            } else if(command.equals("unlink")) {
+                unlink(arguments);
+            } else if(command.equals("list")) {
+                list();
+            } else if(command.equals("help")) {
+                help();
+            } else {
+                install(arguments, command);
+            }
         }
     }
 
@@ -129,8 +126,7 @@ public class Main {
         System.out.println();
         System.out.println("Commands:");
         System.out.println("  ri          (same as ri install)");
-        System.out.println("  ri install  (recursive install of linked dependencies and current project)");
-        System.out.println("  ri assemble (recursive install of linked dependencies and assemble current project)");
+        System.out.println("  ri <goal>   (recursive install of linked dependencies and run <goal>)");
         System.out.println("  ri link     (link the current artifact to the current folder)");
         System.out.println("  ri unlink   (unlink the current or supplied artifact)");
         System.out.println("  ri list     (list all the linked artifacts)");
